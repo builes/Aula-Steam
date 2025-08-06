@@ -11,18 +11,21 @@ function App() {
   const [inputMessage, setInputMessage] = useState("");
 
   useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/builes/Reto/refs/heads/main/curso.json"
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://aula-steam-back.onrender.com/api/cursos"
+        );
+        const data = await response.json();
         setCourseData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSendMessage = () => {
